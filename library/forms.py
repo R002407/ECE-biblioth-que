@@ -61,19 +61,6 @@ class BookForm(forms.ModelForm):
     # -------------------------
     # Validation avancée
     # -------------------------
-
     def clean_isbn(self):
         isbn = self.cleaned_data.get('isbn')
-        pattern = r"^(?:\d{10}|\d{13})$"
-        if not re.match(pattern, isbn):
-            raise ValidationError("L’ISBN doit contenir 10 ou 13 chiffres.")
-        return isbn
-
-    def clean_title(self):
-        title = self.cleaned_data.get('title')
-        qs = Book.objects.filter(title__iexact=title)
-        if self.instance.pk:
-            qs = qs.exclude(pk=self.instance.pk)
-        if qs.exists():
-            raise ValidationError("Un livre avec ce titre existe déjà.")
-        return title
+        # Supprimer
